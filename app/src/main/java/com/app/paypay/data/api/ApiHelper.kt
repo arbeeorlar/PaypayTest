@@ -1,7 +1,9 @@
 package com.app.paypay.data.api
 
 
-class ApiHelper(private val apiService : ApiService) {
+final class ApiHelper(private val apiService : ApiService) {
 
-   // fun getUsers() = apiService.getUsers()
+    fun getCountries() = apiService.getCountries()
+
+    fun getCurrency() = apiService.getCurrencies()
 }
