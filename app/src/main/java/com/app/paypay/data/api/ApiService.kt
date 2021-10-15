@@ -11,4 +11,6 @@ interface ApiService {
    fun getCurrencies(): Single<CurrencyListResponseModel>
 
     fun getCountries(): Single<CountryListResponseModel>
+
+    fun postLogin(username: String,password:String): Single<CountryListResponseModel>
 }

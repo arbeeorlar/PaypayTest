@@ -21,4 +21,9 @@ class ApiServiceImpl : ApiService {
             .getObjectSingle(CountryListResponseModel::class.java)
     }
 
+    override fun postLogin(username: String, password: String): Single<CountryListResponseModel> {
+       return Rx2AndroidNetworking.post("${Constants.countryURL}").build()
+           .getObjectSingle(CountryListResponseModel::class.java)
+    }
+
 }

@@ -8,6 +8,8 @@ import com.app.paypay.data.local.DatabaseHelper
 import com.app.paypay.data.repository.MainRepository
 import com.app.paypay.util.TestCoroutineRule
 import com.app.paypay.utils.Resource
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Before
@@ -55,11 +57,11 @@ class CurrenciesViewModelTest  {
         testCoroutineRule.runBlockingTest {
             doReturn(mapOf<String,Double>())
                 .`when`(mainRepository).getCurrencies()
-            val viewModel = CurrenciesViewModel(mainRepository,databaseHelper)
-            viewModel.getCurrencies().observeForever(apiUsersObserver)
-            verify(apiHelper).getCurrency()
+            val viewModel = CurrenciesViewModel(mainRepository,databaseHelper).getCurrencies()
+            viewModel.observeForever(apiUsersObserver)
+            verify(mainRepository).getCurrencies()
             verify(apiUsersObserver).onChanged(Resource.success(mapOf()))
-            viewModel.getCurrencies().removeObserver(apiUsersObserver)
+            viewModel.removeObserver(apiUsersObserver)
         }
     }
 
@@ -71,7 +73,7 @@ class CurrenciesViewModelTest  {
                 .`when`(mainRepository).getCurrencies()
             val viewModel = CurrenciesViewModel( mainRepository,databaseHelper)
             viewModel.getCurrencies().observeForever(apiUsersObserver)
-            verify(apiHelper).getCurrency()
+            verify(mainRepository).getCurrencies()
             verify(apiUsersObserver).onChanged(
                 Resource.error(
                     RuntimeException(errorMessage).toString(),
